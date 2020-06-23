@@ -33,7 +33,7 @@ data <- df[,2:dim(df)[2]]
 rownames(data) <- df[,1]
 
 # load prior knowledge adjacency matrix
-adja <- read.csv("InferredPathway.csv", header = TRUE, sep = ";", dec = ",", row.names = 1)
+adja <- read.csv("data/InferredPathway.csv", header = TRUE, sep = ";", dec = ",", row.names = 1)
 adja[is.na(adja)] <- 0
 
 #### Set global parameters ----
@@ -85,7 +85,7 @@ adja_block[21:40, 21:40] <- 1
 adja_block[41:50, 41:50] <- 1
 
 # load 1-sugar-addition adjacency
-adja_1s <- read.csv("adja_1sugar.csv",header = TRUE,sep = ";",dec = ",",row.names = 1)
+adja_1s <- read.csv("data/adja_1sugar.csv",header = TRUE,sep = ";",dec = ",",row.names = 1)
 adja_1s[is.na(adja_1s)] <- 0
 
 # a file called "Figure4C.pdf" will be created in the wd
