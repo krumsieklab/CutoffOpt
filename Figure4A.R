@@ -51,7 +51,7 @@ for(percent in percentages){
         
         #Fisher's exact test
         fis <- fisher.test(contin)
-        fis_ib <- cbind(fis_ib, log10(fis$p.value))
+        fis_ib <- cbind(fis_ib, -log10(fis$p.value))
         
       }
       
@@ -68,50 +68,24 @@ tmp <- apply(fis_p_allperc, c(1,2,3), mean)
 conf_fis <- apply(tmp, c(1,2), confin)
 
 #save max and min for different axis
-minYleft = -60
-maxYleft = max(conf_fis)
+maxYleft = 60
+minYleft = 0
 
 rb <- palette(rainbow(9))
 
 pdf("Figure4A.pdf", width = 10, height = 7)
 par(mar=c(5,4,4,6)+0.1)
-plot(cut_vec, conf_fis[2,1,], type='l', axes=FALSE, col="black", xlab = "", ylab = "",
+plot(cut_vec, conf_fis[2,1,], type='l', axes=TRUE, col="black", xlab = "", ylab = "",
      ylim = c(minYleft, maxYleft))
-axis(2, ylim=c(minYleft, maxYleft), col="black", las=1)
+# axis(2, ylim=c(minYleft, maxYleft), col="black", las=1)
 mtext("Fisher's test p-value (log10)", side=2, line=2.5)
 abline(h = 0, lty = 2, col = "black")
 for(i in 2:dim(conf_fis)[2]){
-  par(new=TRUE) 
-  plot(cut_vec, conf_fis[2,i,], type='l', axes=FALSE, col=rb[i-1], xlab="", ylab="",
-       ylim = c(minYleft, maxYleft))
+  lines(cut_vec, conf_fis[2,i,], type="l", col=rb[i-1])
+  # par(new=TRUE) 
+  # plot(cut_vec, conf_fis[2,i,], type='l', axes=FALSE, col=rb[i-1], xlab="", ylab="",
+  #      ylim = c(minYleft, maxYleft))
 }
-# par(new=TRUE) #Allow a second plot on the same graph
-# plot(cut_vec, conf_fis[2,2,], type='l', axes=FALSE, col=rb[1], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a third plot on the same graph
-# plot(cut_vec, conf_fis[2,3,], type='l', axes=FALSE, col=rb[2], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a 4th plot on the same graph
-# plot(cut_vec, conf_fis[2,4,], type='l', axes=FALSE, col=rb[3], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a 5th plot on the same graph
-# plot(cut_vec, conf_fis[2,5,], type='l', axes=FALSE, col=rb[4], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a 6th plot on the same graph
-# plot(cut_vec, conf_fis[2,6,], type='l', axes=FALSE, col=rb[5], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a 7th plot on the same graph
-# plot(cut_vec, conf_fis[2,7,], type='l', axes=FALSE, col=rb[6], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a 8th plot on the same graph
-# plot(cut_vec, conf_fis[2,8,], type='l', axes=FALSE, col=rb[7], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a 9th plot on the same graph
-# plot(cut_vec, conf_fis[2,9,], type='l', axes=FALSE, col=rb[8], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
-# par(new=TRUE) #Allow a 10th plot on the same graph
-# plot(cut_vec, conf_fis[2,10,], type='l', axes=FALSE, col=rb[9], xlab="", ylab="",
-#      ylim = c(minYleft, maxYleft))
 axis(1,xlim=c(0,1))
 mtext("Correlation cutoff",side=1,col="black",line=2.5) 
 legend(

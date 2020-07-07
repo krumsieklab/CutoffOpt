@@ -48,7 +48,7 @@ for(i in nswap) {
         
         # Fisher's exact test
         fis <- fisher.test(contin)
-        fis_p_swaps[counter,count_cutoff,b,ib+1] <- log10(fis$p.value)
+        fis_p_swaps[counter,count_cutoff,b,ib+1] <- -log10(fis$p.value)
         
       }
       
@@ -61,15 +61,15 @@ tmp <- apply(fis_p_swaps, c(1,2,3), mean)
 conf_fis <- apply(tmp, c(1,2), confin)
 
 #save max and min for different axis
-minYleft <- -60
-maxYleft <- 0
+maxYleft <- 60
+minYleft <- 0
 
 rb <- palette(rainbow(dim(fis_p_swaps)[1]+1))
 
-pdf("Figure4B.pdf", width = 10, height = 7)
-plot(cut_vec, conf_fis[2,1,], type='l', axes=FALSE, col="black", xlab = "", ylab = "",
+pdf("Figure4B.pdf", width = 8, height = 7)
+plot(cut_vec, conf_fis[2,1,], type='l', axes=TRUE, col="black", xlab = "", ylab = "",
      ylim = c(minYleft, maxYleft))
-axis(2, ylim=c(minYleft, maxYleft), col="black", las=1)
+# axis(2, ylim=c(minYleft, maxYleft), col="black", las=1)
 mtext("Fisher's test p-value (log10)", side=2, line=2.5)
 for(i in 2:dim(fis_p_swaps)[1]){
   lines(cut_vec, conf_fis[2,i,], type="l", col=rb[i])
@@ -78,7 +78,7 @@ abline(h = 0, lty = 2, col = "black")
 axis(1,xlim=c(0,1))
 mtext("Correlation cutoff",side=1,col="black",line=2.5) 
 legend(
-  "bottomright",
+  "topright",
   title = "Swapped Edges",
   nswap %>% as.character(),
   lty = rep(1,length(nswap)),
