@@ -56,6 +56,64 @@ rand_adja <- function(perc) {
   return(x27)
 }
 
+# Adaptation of GeneNet (version  1.2.15) package code to run silently
+# source code taken directly from package
+# (removed hardcoded, unconditional calls of cat function)
+network.test.edges.silent <- function (r.mat, fdr = TRUE, direct = FALSE, plot = TRUE, ...) 
+{
+  pcor = sm2vec(r.mat)
+  indexes = sm.index(r.mat)
+  colnames(indexes) = c("node1", "node2")
+  w = cbind(pcor, indexes)
+  if (fdr == TRUE) {
+    # cat("Estimate (local) false discovery rates (partial correlations):\n")
+    fdr.out = fdrtool(w[, 1], statistic = "correlation", 
+                      plot = plot, ...)
+    pval = fdr.out$pval
+    qval = fdr.out$qval
+    prob = 1 - fdr.out$lfdr
+  }
+  else {
+    pval = rep(NA, length(w[, 1]))
+    qval = pval
+    prob = pval
+  }
+  result = cbind(w, pval, qval, prob)
+  if (direct == TRUE) {
+    spvar = attr(r.mat, "spv")
+    if (is.null(spvar)) {
+      r.mat.cor = pcor2cor(r.mat)
+      spvar = 1/diag(solve(r.mat.cor))
+    }
+    p = length(spvar)
+    r.spvar = (t(spvar %*% t(rep(1, p)))/(spvar %*% t(rep(1, 
+                                                          p))))
+    log.spvar = log(sm2vec(r.spvar))
+    if (fdr == TRUE) {
+      if (plot == TRUE) {
+        dev.new()
+      }
+      # cat("Estimate (local) false discovery rates (log ratio of spvars):\n")
+      fdr.out = fdrtool(log.spvar, statistic = "normal", 
+                        plot = plot, ...)
+      pval.dir = fdr.out$pval
+      qval.dir = fdr.out$qval
+      prob.dir = 1 - fdr.out$lfdr
+    }
+    else {
+      pval.dir = rep(NA, length(w[, 1]))
+      qval.dir = pval.dir
+      prob.dir = pval.dir
+    }
+    result = cbind(result, log.spvar, pval.dir, qval.dir, 
+                   prob.dir)
+  }
+  sort.idx = order(-abs(result[, 1]))
+  result = as.data.frame(result[sort.idx, ])
+  return(result)
+}
+
+
 sco <- function(data_re,i,cutoff,adja){
   
   # compute partial correlation matrix
@@ -74,7 +132,7 @@ sco <- function(data_re,i,cutoff,adja){
   fis_edge <- fisher.test(contin_edge) %>% .$p.value %>% log10
   
   # compute adjacency matrix according to a statistical cutoff of 0.01 FDR
-  gn_pvalues <- network.test.edges(adja_data, plot=F, verbose=F)
+  gn_pvalues <- network.test.edges.silent(adja_data, plot=F, verbose=F)
   gn_pvalues$pval <- p.adjust(gn_pvalues$pval,"fdr")
   gn_pvalues$pval[gn_pvalues$pval > 0.01] <- NaN
   fdr_0.01 <- abs(gn_pvalues$pcor[which.max(gn_pvalues$pval)])
@@ -153,7 +211,7 @@ sym_generate_srand <- function(s1,ntry){
 }
 
 
-# in this case adjl is list of adja
+# run cutoff optimization based on a list of adjacency matrices
 ffcutopL <- function(adjl, data, nboots=100, cut_vec = seq(from = 0, to = 1, length = 100)){
   
   #calculate 95% confidence interval of the values (not CI of mean)
@@ -162,13 +220,13 @@ ffcutopL <- function(adjl, data, nboots=100, cut_vec = seq(from = 0, to = 1, len
   }
   
   
-  # function to run genenet and get p values for each cutoff
+  # cutoff optimization function
   frun_pcout <- function(data_re, cut_vec, p_ths = c(0.05,0.01), 
                          padj_methods = c("fdr","bonferroni"), return_cormat = F){
     # compute partial correlation
     cormat <- ggm.estimate.pcor(as.matrix(data_re), method = "dynamic",  verbose=FALSE)
     # compute partial correlation p-values
-    gn_pvalues <- network.test.edges(cormat, plot=FALSE, verbose=FALSE)
+    gn_pvalues <- network.test.edges.silent(cormat, plot=FALSE, verbose=FALSE)
     
     # get partial correlation cutoffs for bonferroni and fdr cutoffs 
     pcor_vals<-
