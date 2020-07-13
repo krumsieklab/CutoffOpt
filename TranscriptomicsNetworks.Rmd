@@ -16,7 +16,7 @@ library(dplyr)
 library(ggplot2)
 
 # load optimization results and network data
-load("FileS2Data.Rds")
+load("data/TranscriptomicsNetworkData.Rds")
 # define cutoff vector
 cut_vec <- (0:100)/100
 
@@ -27,11 +27,11 @@ Sidebar {.sidebar data-width=350}
 
 This page allows to explore the cutoff optimization results for all TCGA transcriptomics pathways considered.
 
-After selecting a pathway from the drop-down menu below, the results will be automatically visualized in the two tabs ("Networks", "Optimization Curve"). 
+After selecting a pathway from the drop-down menu below, the results will be automatically visualized in the two tabs ("_Networks_", "_Optimization Curve_"). 
 
-Network tab: statistical FDR 0.05 partial correlation network (upper left), the optimized partial correlation network (upper right), the reference network used for optimization based on STRING (lower left), and the reference network used for validation based on CORUM (lower right). Black edges indicate connections found in the STRING training adjacency, green edges indicate connections found in the CORUM testing adjacency, while gray edges indicate false positives.
+_**Networks** tab_: statistical FDR 0.05 partial correlation network (upper left), the optimized partial correlation network (upper right), the reference network used for optimization based on STRING (lower left), and the reference network used for validation based on CORUM (lower right). Black edges indicate connections found in the STRING training adjacency, green edges indicate connections found in the CORUM testing adjacency, while gray edges indicate false positives.
 
-Optimization Curve tab: cutoff optimization results with 100 bootstrap samples. The line indicates the median of the bootstrap, and the error bars indicate the 95% confidence intervals.
+_**Optimization Curve** tab_: cutoff optimization results with 100 bootstrap samples. The line indicates the median of the bootstrap, and the error bars indicate the 95% confidence intervals. The red dashed line indicated the multiple testing corrected significance threshold (3.21e-05).
 
 
 ```{r}
