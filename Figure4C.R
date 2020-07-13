@@ -56,6 +56,7 @@ Figure4C <- function(cut_vec, data, adja, adja_block, adja_1s, nboot){
   # assign names
   colnames(x) <- c("cut_vec","lowerbound","median_p","upperbound","Adjacency")
   
+  # plot
   p <- ggplot(as.data.frame(x), aes(x=cut_vec, y=-median_p, color=Adjacency))+
     geom_errorbar(aes(ymin=-upperbound, ymax=-lowerbound), colour="grey")+
     geom_line(size=1)+
@@ -65,8 +66,10 @@ Figure4C <- function(cut_vec, data, adja, adja_block, adja_1s, nboot){
     theme_light(base_size = 15) +
     ggtitle("GeneNet Cutoff optimization")
   
+  # save plot to file
   pdf("Figure4C.pdf", width = 10.5, height= 10)
   print(p)
   dev.off()
   
+  return(p)
 }

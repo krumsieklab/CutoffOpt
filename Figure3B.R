@@ -42,16 +42,20 @@ Figure3B <- function(cut_vec, data, adja, nboot){
   # assign names
   colnames(x) <- c("cut_vec","lowerbound","median_p","upperbound")
   
+  # plot
   p <- ggplot(as.data.frame(x), aes(x=cut_vec, y=-median_p))+
     geom_errorbar(aes(ymin=-upperbound, ymax=-lowerbound), colour="grey")+
     geom_line(size=1)+
     xlab("Correlation cutoff")+
-    ylab("Fisher's test p-value (-log10)")+
-    theme_light(base_size = 15) +
+    ylab("-log10(Fisher's test p-value)")+
+    theme_bw() +
     ggtitle("GeneNet Cutoff optimization")
   
+  # save plot to file
   pdf("Figure3B.pdf", width = 10.5, height= 10)
   print(p)
   dev.off()
+  
+  return(p)
   
 }

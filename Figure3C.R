@@ -44,23 +44,23 @@ Figure3C <- function(cut_vec, data, adja, nboot, data_sizes){
   rownames(fis_cut_mean) <- data_sizes
   
   my_palette <- colorRampPalette(c("white", "black"))
+
+  xlab <- colnames(fis_cut_mean)
+  xlab[!((xlab %>% as.numeric) %in% as.character(seq(0,1,by = 0.1)))] <- ""
   
-  lmat = rbind(c(0,3),c(2,1),c(0,4))
-  lwid = c(0.2,4)
-  lhei = c(0.8,4,0.8)
+  # plot
+  p <- pheatmap::pheatmap(-fis_cut_mean,col = my_palette(299), 
+                     labels_col = xlab,
+                     cluster_rows = F,cluster_cols = F,
+                     show_rownames = T, show_colnames = T, main = "-Log10(Fisher's test p-value)")
   
+  # save plot to file
   pdf("Figure3C.pdf", height = 15, width = 12)
-  gplots::heatmap.2(-fis_cut_mean, trace = "none", density.info = 'none', dendrogram = "none",
-                    Rowv = NULL, Colv = NULL,
-                    # #adjust breaks maybe
-                    # breaks=seq(min(fis_cut_mean),0,length.out = 300),
-                    col = my_palette(299), symkey = FALSE, keysize = 0.9,
-                    # font size of rows and columns
-                    cexRow=1.5,
-                    cexCol=1.5,
-                    ylab = "Sample size", xlab = "Correlation cutoff", main = "Fisher's test p-value (-log10)",
-                    lmat = lmat, lwid = lwid, lhei = lhei
-  )
+  setHook("grid.newpage", function() pushViewport(viewport(x=1,y=1,width=0.9, height=0.9, name="vp", just=c("right","top"))), action="prepend")
+  print(p)
+  setHook("grid.newpage", NULL, "replace")
+  grid.text("Correlation cutoff", y=-0.02, gp=gpar(fontsize=11))
+  grid.text("Sample size", x=0.97, rot=-90, gp=gpar(fontsize=11))
   dev.off()
   
 }
