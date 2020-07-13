@@ -14,14 +14,14 @@ source("Figure4C.R")
 # load libraries
 library(ggplot2)
 library(GeneNet)
-library(gplots)
 library(colorRamps)
 library(tictoc)
+library(pheatmap)
 
 #### Load Data ----
 
 # download preprocessed glycomics data
-file <- "SupplementalMaterial_DatasetS1_PreprocessedData.xls"
+file <- "data/SupplementalMaterial_DatasetS1_PreprocessedData.xls"
 load.web.file(
   url="https://ndownloader.figshare.com/files/9160348",
   md5sum = '32840138512bc5a257212677ec3dc3c8',
@@ -40,7 +40,7 @@ adja[is.na(adja)] <- 0
 #### Set global parameters ----
 
 # cutoff vector
-cut_vec <- seq(from = 0, to = 1, length = 100)
+cut_vec <- seq(from = 0, to = 1, length = 101)
 # number of bootstrapping
 nboot <-10
 
@@ -48,7 +48,7 @@ nboot <-10
 
 tic()
 # a file called "Figure3B.pdf" will be created in the wd
-Figure3B(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot)
+fig3B <- Figure3B(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot)
 toc()
 
 #### Figure 3C: cutoff vs. sample size heatmap ----
@@ -62,7 +62,7 @@ if(nrow(data)%%size_step != 0){
 
 tic()
 # a file called "Figure3C.pdf" will be created in the wd
-Figure3C(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot, data_sizes=data_sizes)
+fig3C <- Figure3C(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot, data_sizes=data_sizes)
 toc()
 
 #### Figure 4A: simulated partial prior knowledge ----
@@ -72,7 +72,7 @@ percentages <- seq(from = 0, to = 0.9, length = 10)
 
 tic()
 # a file called "Figure4A.pdf" will be created in the wd
-Figure4A(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot, percentages=percentages)
+fig4A <- Figure4A(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot, percentages=percentages)
 toc()
 
 #### Figure 4B: simulated incorrect prior knowledge ----
@@ -82,7 +82,7 @@ nswap <- c(0,1:10,seq(15,50,5))
 
 tic()
 # a file called "Figure4B.pdf" will be created in the wd
-Figure4B(cut_vec, data, adja, nboot, nswap)
+fig4B <- Figure4B(cut_vec, data, adja, nboot, nswap)
 toc()
 
 #### Figure 4C: coarse prior knowledge ----
@@ -99,5 +99,5 @@ adja_1s[is.na(adja_1s)] <- 0
 
 tic()
 # a file called "Figure4C.pdf" will be created in the wd
-Figure4C(cut_vec, data, adja, adja_block, adja_1s, nboot)
+fig4C <- Figure4C(cut_vec, data, adja, adja_block, adja_1s, nboot)
 toc()
