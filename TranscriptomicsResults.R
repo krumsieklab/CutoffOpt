@@ -201,13 +201,11 @@ if(load_precomputed) {
   
 } else {
   
-  tic()
   # loop over pathways
   ress <- lapply(nods, function(x) {
     # run cutoff optimization on STRING and compute overlap on CORUM
     frun_and_gather_results_from_nod(x=x,nBoo = nboot, cut_vec = cut_vec)
   })
-  toc()
   
 }
 
