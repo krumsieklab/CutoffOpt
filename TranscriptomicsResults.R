@@ -40,7 +40,6 @@ load.web.file(
 load("data/adj_string")
 
 # To reproduce the precomputed STRING from scratch and load them into the script, run the lines below (running time ~1h)
-# source("get_string_adjacency.R")
 # library(igraph)
 # library(biomaRt)
 # library(Matrix)
@@ -78,10 +77,6 @@ load_precomputed <- T
 # we additionally filtered only genes common to all 12 cancer types and and corrected for age, gender and cancer type
 if(!load_precomputed){
   
-  source("download_rna.R")
-  source("impute_rna.R")
-  source("preprocess_rna.R")
-  
   # download data
   download_rna() 
   # impute data
@@ -114,7 +109,6 @@ load.web.file(
 load("data/graphite_reactome_pathways_061419")
 
 # To reproduce the precomputed reactome pathways from scratch and load them into the script, run the lines below (running time ~1h)
-# source("get_reactome_pathways.R")
 # get_reactome_pathways()
 # load("data/graphite_reactome_pathways")
 # HOWEVER, please note that these pathway annotations are updated in time, and hence depending on the graphite package updates

@@ -5,17 +5,12 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # import functions
 source("HelperFunctions.R")
-source("Figure3B.R")
-source("Figure3C.R")
-source("Figure4A.R")
-source("Figure4B.R")
-source("Figure4C.R")
 
 # load libraries
 library(ggplot2)
+library(readxl)
 library(GeneNet)
 library(colorRamps)
-library(tictoc)
 library(pheatmap)
 
 #### Load Data ----
@@ -40,16 +35,14 @@ adja[is.na(adja)] <- 0
 #### Set global parameters ----
 
 # cutoff vector
-cut_vec <- seq(from = 0, to = 1, length = 101)
+cut_vec <- seq(from = 0, to = 1, length = 100)
 # number of bootstrapping
-nboot <-10
+nboot <-100
 
 #### Figure 3B: optimization curve ----
 
-tic()
 # a file called "Figure3B.pdf" will be created in the wd
 fig3B <- Figure3B(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot)
-toc()
 
 #### Figure 3C: cutoff vs. sample size heatmap ----
 
@@ -60,30 +53,24 @@ if(nrow(data)%%size_step != 0){
   datasizes <- c(data_sizes, nrow(data))
 }
 
-tic()
 # a file called "Figure3C.pdf" will be created in the wd
 fig3C <- Figure3C(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot, data_sizes=data_sizes)
-toc()
 
 #### Figure 4A: simulated partial prior knowledge ----
 
 # create vector of percentages
 percentages <- seq(from = 0, to = 0.9, length = 10)
 
-tic()
 # a file called "Figure4A.pdf" will be created in the wd
 fig4A <- Figure4A(cut_vec=cut_vec, data=data, adja=adja, nboot=nboot, percentages=percentages)
-toc()
 
 #### Figure 4B: simulated incorrect prior knowledge ----
 
 # create a vector of number of edge swaps 
 nswap <- c(0,1:10,seq(15,50,5))
 
-tic()
 # a file called "Figure4B.pdf" will be created in the wd
 fig4B <- Figure4B(cut_vec, data, adja, nboot, nswap)
-toc()
 
 #### Figure 4C: coarse prior knowledge ----
 
@@ -97,7 +84,5 @@ adja_block[41:50, 41:50] <- 1
 adja_1s <- read.csv("data/adja_1sugar.csv",header = TRUE,sep = ";",dec = ",",row.names = 1)
 adja_1s[is.na(adja_1s)] <- 0
 
-tic()
 # a file called "Figure4C.pdf" will be created in the wd
 fig4C <- Figure4C(cut_vec, data, adja, adja_block, adja_1s, nboot)
-toc()
