@@ -58,7 +58,7 @@ Sourcing the file _TranscriptomicsResults.R_ will reproduce the main transcripto
 - Preprocessed TCGA PANCAN12 RNA-seq data
 - Precomputed bootstrapping results
 
-Moreover, the script will be dautomatically generate the following files in the working directory (each file corresponds to the respective paper figure panel):
+Moreover, the script will automatically generate the following files in the working directory (each file corresponds to the respective paper figure panel):
 
 - **Figure6.pdf** 
 - **Figure7A.pdf** 
