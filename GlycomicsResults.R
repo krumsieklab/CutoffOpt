@@ -40,7 +40,7 @@ adja[is.na(adja)] <- 0
 # cutoff vector
 cut_vec <- seq(from = 0, to = 1, length = 100)
 # number of bootstrapping
-nboot <-100
+nboot <-10
 
 #### Figure 3B: optimization curve ----
 tic()

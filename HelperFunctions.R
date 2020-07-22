@@ -214,7 +214,7 @@ sym_generate_srand <- function(s1,ntry){
 Figure3B <- function(cut_vec, data, adja, nboot){
   
   R.utils::printf("Figure 3B\n")
-  R.utils::printf("Computing...\n")
+  R.utils::printf("   Computing...\n")
   
   fis_p <- NULL
   count_cutoffs <- 0
@@ -258,7 +258,7 @@ Figure3B <- function(cut_vec, data, adja, nboot){
   # assign names
   colnames(x) <- c("cut_vec","lowerbound","median_p","upperbound")
   
-  R.utils::printf("Plotting\n")
+  R.utils::printf("   Plotting\n")
   
   # plot
   p <- ggplot(as.data.frame(x), aes(x=cut_vec, y=-median_p))+
@@ -295,7 +295,7 @@ Figure3C <- function(cut_vec, data, adja, nboot, data_sizes){
   
   for (i_l in data_sizes) {
     
-    R.utils::printf("Computing sample size %d\n", i_l)
+    R.utils::printf("   Computing sample size %d\n", i_l)
     
     index_data_size <- index_data_size + 1
     index_boot <- 0
@@ -335,7 +335,7 @@ Figure3C <- function(cut_vec, data, adja, nboot, data_sizes){
   xlab <- colnames(fis_cut_mean)
   xlab[!((xlab %>% as.numeric) %in% as.character(seq(0,1,by = 0.1)))] <- ""
   
-  R.utils::printf("Plotting\n")
+  R.utils::printf("   Plotting\n")
   
   # plot
   p <- pheatmap::pheatmap(-fis_cut_mean,col = my_palette(299), 
@@ -361,7 +361,7 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
   
   R.utils::printf("Figure 4A\n")
   
-  boots <- seq(from = 1, to = 100, length = 100)
+  boots <- seq(from = 1, to = nboot, length = nboot)
   innerboots <- seq(from = 0, to = nboot, length = nboot+1)
   
   fis_p_allperc <- array(NaN, dim=c(length(percentages),length(cut_vec),length(boots)))
@@ -370,7 +370,7 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
   
   for(percent in percentages){
     
-    R.utils::printf("Computing percentage %.0f%%\n", percent*100)
+    R.utils::printf("   Computing percentage %.0f%%\n", percent*100)
     
     counter <- counter+1
     
@@ -438,7 +438,7 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
     cbind.data.frame(cut_vec=cut_vec, fis=conf_fis[2,x,],MissingEdges=sprintf("%.0f%%",percentages[x]*100))
   }) %>% do.call(rbind,.) %>% as.data.frame 
   
-  R.utils::printf("Plotting\n")
+  R.utils::printf("   Plotting")
   
   # plot
   p <- ggplot(dt, aes(x = cut_vec, y = fis)) + 
@@ -475,7 +475,7 @@ Figure4B <- function(cut_vec, data, adja, nboot, nswap){
   counter <- 0
   for(i in nswap) {
     
-    printf("Computing swap %d\n", i)
+    R.utils::printf("   Computing swap %d\n", i)
     
     counter <- counter+1
     
@@ -535,7 +535,7 @@ Figure4B <- function(cut_vec, data, adja, nboot, nswap){
     cbind.data.frame(cut_vec=cut_vec, fis=conf_fis[2,x,],EdgeSwaps=sprintf("%d",nswap[x]))
   }) %>% do.call(rbind,.) %>% as.data.frame 
   
-  R.utils::printf("Plotting\n")
+  R.utils::printf("   Plotting\n")
   
   # plot
   p <- ggplot(dt, aes(x = cut_vec, y = fis)) + 
@@ -561,7 +561,7 @@ Figure4B <- function(cut_vec, data, adja, nboot, nswap){
 Figure4C <- function(cut_vec, data, adja, adja_block, adja_1s, nboot){
   
   R.utils::printf("Figure 4C\n")
-  R.utils::printf("Computing...\n")
+  R.utils::printf("   Computing...\n")
   
   fis_p <- NULL
   fis_p_block <- NULL
@@ -619,7 +619,7 @@ Figure4C <- function(cut_vec, data, adja, adja_block, adja_1s, nboot){
   # assign names
   colnames(x) <- c("cut_vec","lowerbound","median_p","upperbound","Adjacency")
   
-  R.utils::printf("Plotting\n")
+  R.utils::printf("   Plotting\n")
   
   # plot
   p <- ggplot(as.data.frame(x), aes(x=cut_vec, y=-median_p, color=Adjacency))+
