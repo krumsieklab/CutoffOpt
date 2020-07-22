@@ -213,6 +213,9 @@ sym_generate_srand <- function(s1,ntry){
 # reproduce Figure 3B (glycomics data)
 Figure3B <- function(cut_vec, data, adja, nboot){
   
+  R.utils::printf("Figure 3B\n")
+  R.utils::printf("Computing...\n")
+  
   fis_p <- NULL
   count_cutoffs <- 0
   
@@ -255,6 +258,8 @@ Figure3B <- function(cut_vec, data, adja, nboot){
   # assign names
   colnames(x) <- c("cut_vec","lowerbound","median_p","upperbound")
   
+  R.utils::printf("Plotting\n")
+  
   # plot
   p <- ggplot(as.data.frame(x), aes(x=cut_vec, y=-median_p))+
     geom_errorbar(aes(ymin=-upperbound, ymax=-lowerbound), colour="grey")+
@@ -269,12 +274,16 @@ Figure3B <- function(cut_vec, data, adja, nboot){
   print(p)
   dev.off()
   
+  R.utils::printf("Figure 3B done\n")
+  
   return(p)
   
 }
 
 # reproduce Figure 3C (glycomics data)
 Figure3C <- function(cut_vec, data, adja, nboot, data_sizes){
+  
+  R.utils::printf("Figure 3C\n")
   
   boots <- seq(from = 0, to = nboot, length = nboot+1)
   numb_edges <- length(which(adja == 1))
@@ -285,6 +294,8 @@ Figure3C <- function(cut_vec, data, adja, nboot, data_sizes){
   index_data_size <- 0
   
   for (i_l in data_sizes) {
+    
+    R.utils::printf("Computing sample size %d\n", i_l)
     
     index_data_size <- index_data_size + 1
     index_boot <- 0
@@ -324,6 +335,8 @@ Figure3C <- function(cut_vec, data, adja, nboot, data_sizes){
   xlab <- colnames(fis_cut_mean)
   xlab[!((xlab %>% as.numeric) %in% as.character(seq(0,1,by = 0.1)))] <- ""
   
+  R.utils::printf("Plotting\n")
+  
   # plot
   p <- pheatmap::pheatmap(-fis_cut_mean,col = my_palette(299), 
                           labels_col = xlab,
@@ -339,12 +352,16 @@ Figure3C <- function(cut_vec, data, adja, nboot, data_sizes){
   grid.text("Sample size", x=0.97, rot=-90, gp=gpar(fontsize=11))
   dev.off()
   
+  R.utils::printf("Figure 3C done\n")
+  
 }
 
 # reproduce Figure 4A (glycomics data)
 Figure4A <- function(cut_vec, data, adja, nboot, percentages){
   
-  boots <- seq(from = 1, to = nboot, length = nboot)
+  R.utils::printf("Figure 4A\n")
+  
+  boots <- seq(from = 1, to = 100, length = 100)
   innerboots <- seq(from = 0, to = nboot, length = nboot+1)
   
   fis_p_allperc <- array(NaN, dim=c(length(percentages),length(cut_vec),length(boots)))
@@ -352,6 +369,8 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
   counter <- 0
   
   for(percent in percentages){
+    
+    R.utils::printf("Computing percentage %.0f%%\n", percent*100)
     
     counter <- counter+1
     
@@ -419,6 +438,8 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
     cbind.data.frame(cut_vec=cut_vec, fis=conf_fis[2,x,],MissingEdges=sprintf("%.0f%%",percentages[x]*100))
   }) %>% do.call(rbind,.) %>% as.data.frame 
   
+  R.utils::printf("Plotting\n")
+  
   # plot
   p <- ggplot(dt, aes(x = cut_vec, y = fis)) + 
     geom_line(aes(color = MissingEdges)) + 
@@ -433,6 +454,8 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
   print(p)
   dev.off()
   
+  R.utils::printf("Figure 4A done\n")
+  
   return(p)
   
 }
@@ -440,15 +463,19 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
 # reproduce Figure 4B (glycomics data)
 Figure4B <- function(cut_vec, data, adja, nboot, nswap){
   
+  R.utils::printf("Figure 4B\n")
+  
   adja_once <- adja[1:20, 1:20]
   
-  boots <- seq(from = 1, to = nboot, length = nboot)
+  boots <- seq(from = 1, to = 100, length = 100)
   innerboots <- seq(from = 0, to = nboot, length = nboot+1)
   
   fis_p_swaps <- array(NaN, dim = c(length(nswap), length(cut_vec), length(boots), length(innerboots)))
   
   counter <- 0
   for(i in nswap) {
+    
+    printf("Computing swap %d\n", i)
     
     counter <- counter+1
     
@@ -508,6 +535,8 @@ Figure4B <- function(cut_vec, data, adja, nboot, nswap){
     cbind.data.frame(cut_vec=cut_vec, fis=conf_fis[2,x,],EdgeSwaps=sprintf("%d",nswap[x]))
   }) %>% do.call(rbind,.) %>% as.data.frame 
   
+  R.utils::printf("Plotting\n")
+  
   # plot
   p <- ggplot(dt, aes(x = cut_vec, y = fis)) + 
     geom_line(aes(color = EdgeSwaps)) + 
@@ -522,12 +551,17 @@ Figure4B <- function(cut_vec, data, adja, nboot, nswap){
   print(p)
   dev.off()
   
+  R.utils::printf("Figure 4B done\n")
+  
   return(p)
   
 }
 
 # reproduce Figure 4C (glycomics data)
 Figure4C <- function(cut_vec, data, adja, adja_block, adja_1s, nboot){
+  
+  R.utils::printf("Figure 4C\n")
+  R.utils::printf("Computing...\n")
   
   fis_p <- NULL
   fis_p_block <- NULL
@@ -585,6 +619,8 @@ Figure4C <- function(cut_vec, data, adja, adja_block, adja_1s, nboot){
   # assign names
   colnames(x) <- c("cut_vec","lowerbound","median_p","upperbound","Adjacency")
   
+  R.utils::printf("Plotting\n")
+  
   # plot
   p <- ggplot(as.data.frame(x), aes(x=cut_vec, y=-median_p, color=Adjacency))+
     geom_errorbar(aes(ymin=-upperbound, ymax=-lowerbound), colour="grey")+
@@ -599,6 +635,8 @@ Figure4C <- function(cut_vec, data, adja, adja_block, adja_1s, nboot){
   pdf("Figure4C.pdf", width = 10.5, height= 10)
   print(p)
   dev.off()
+  
+  R.utils::printf("Figure 4C done\n")
   
   return(p)
 }
