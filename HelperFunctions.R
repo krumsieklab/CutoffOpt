@@ -443,7 +443,7 @@ Figure4A <- function(cut_vec, data, adja, nboot, percentages){
   # plot
   p <- ggplot(dt, aes(x = cut_vec, y = fis)) + 
     geom_line(aes(color = MissingEdges)) + 
-    scale_color_manual(values = c("black", rb)) +
+    # scale_color_manual(values = c("black", rb)) +
     theme_bw() +
     xlab("Correlation cutoff") +
     ylab("-log10(Fisher's test p-value)") +
@@ -540,7 +540,7 @@ Figure4B <- function(cut_vec, data, adja, nboot, nswap){
   # plot
   p <- ggplot(dt, aes(x = cut_vec, y = fis)) + 
     geom_line(aes(color = EdgeSwaps)) + 
-    scale_color_manual(values = c("black", rb)) +
+    # scale_color_manual(values = c("black", rb)) +
     theme_bw() +
     xlab("Correlation cutoff") +
     ylab("-log10(Fisher's test p-value)") +
