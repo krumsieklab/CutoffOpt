@@ -29,6 +29,15 @@ This repository contains R code to replicate the findings from: Benedetti et al.
 
 This code is released under [GPL-3.0 license](https://web.archive.org/web/20160316065455/https://opensource.org/licenses/gpl-3.0).
 
+## Files
+
+The repository includes the following code files:
+
+- _GlycomicsResults.R_ -> source this script to reproduce the main glycomics results
+- _TranscriptomicsResults.R_ -> source this script to reproduce the main transcriptomics results
+- _TranscriptomicsNetworks.Rmd_ -> this script can be run after the previous one to interactively browse through the transcriptomics network results
+- _HelperFunctions.R_ -> this script contains the functions used in the analysis scripts above
+
 ## Result Replication
 
 ### Glycomics Results
