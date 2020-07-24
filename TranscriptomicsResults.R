@@ -33,11 +33,13 @@ if(!dir.exists("data")) {
 
 # download precomputed STRING adjacency (access date 06/14/2019)
 load.web.file(
-  url = "https://ndownloader.figshare.com/files/23821079?private_link=477d393facf01dda8355", 
+  url = "https://ndownloader.figshare.com/files/23821079", 
   md5sum = "df8ccca5d1eecd16fe01488f490018d1", 
   outfile = "data/adj_string", 
   zipfile = F)
 load("data/adj_string")
+
+
 
 # To reproduce the precomputed STRING from scratch and load them into the script, run the lines below (running time ~1h)
 # library(igraph)
@@ -53,7 +55,7 @@ load("data/adj_string")
 
 # download precomputed CORUM adjacency (access date 06/14/2019)
 load.web.file(
-  url = "https://ndownloader.figshare.com/files/23821082?private_link=477d393facf01dda8355", 
+  url = "https://ndownloader.figshare.com/files/23821082", 
   md5sum = "140a9b0f18f8417b26c5d8c61d1fe59a", 
   outfile = "data/corum", 
   zipfile = F)
@@ -88,7 +90,7 @@ if(!load_precomputed){
   load("data/pancan_mrna_imputed_corrected_combined_not_reduced_genes")
 } else {
   load.web.file(
-    url = "https://ndownloader.figshare.com/files/23821088?private_link=477d393facf01dda8355", 
+    url = "https://ndownloader.figshare.com/files/23821088", 
     md5sum = "74e8e75766761a63af7165caec22152d", 
     outfile = "data/TCGA_PANCAN12_preprocessed", 
     zipfile = F)
@@ -102,7 +104,7 @@ if(!load_precomputed){
 # 1. pathway contains at least 10 genes and at most 1,000 genes 
 # 2. at least 50% of the genes in the pathway were found in the PANCAN12 RNA-seq data
 load.web.file(
-  url = "https://ndownloader.figshare.com/files/23821085?private_link=477d393facf01dda8355", 
+  url = "https://ndownloader.figshare.com/files/23821085", 
   md5sum = "e6e631d53b24152e91c8d1c92ac1c52c", 
   outfile = "data/graphite_reactome_pathways_061419", 
   zipfile = F)
@@ -185,7 +187,7 @@ if(load_precomputed) {
   
   # load precalculated data (nboot=100)
   load.web.file(
-    url = "https://ndownloader.figshare.com/files/23821091?private_link=477d393facf01dda8355", 
+    url = "https://ndownloader.figshare.com/files/23821091", 
     md5sum = "3e494b6d0a5bdc777d955882bb72ad8a", 
     outfile = "data/TranscriptomicsCutoptResults", 
     zipfile = F)
