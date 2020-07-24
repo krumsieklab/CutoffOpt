@@ -59,7 +59,7 @@ The metabolomics datasets used in the paper is not publicly available due to stu
 
 ### Transcriptomics Results
 
-Sourcing the file _TranscriptomicsResults.R_ will reproduce the main transcriptomics results. Using the default settings, the script will download the following precomputed files from [figshare](https://figshare.com/s/477d393facf01dda8355):
+Sourcing the file _TranscriptomicsResults.R_ will reproduce the main transcriptomics results. Using the default settings, the script will download the following precomputed files from [figshare](https://doi.org/10.6084/m9.figshare.12646748.v1):
 
 - STRING adjacency
 - CORUM adjacency
@@ -82,6 +82,6 @@ Moreover, the script will automatically generate the following files in the work
 - **TranscriptomicsNetworkData.Rds** -> This data file is needed for the R-Markdown file _TranscriptomicsNetworks.Rmd_, which will create an interactive Shiny app to explore the optimization and network results for all significant transcriptomics pathways.
 
 <ins>**Notes on precomputed data:**</ins>
-In order to circumvent the long computation time necessary to regenerate the transcriptomics results from scratch, the current version of the _TranscriptomicsResults.R_ script loads precomputed versions of the biological references (STRING, CORUM and pathway annotations from Reactome), of the [TCGA PANCAN12 RNA-seq data](https://xenabrowser.net/datapages/?dataset=TCGA.PANCAN12.sampleMap%2FPanCan12.3602-corrected-v3_syn1715755&host=https%3A%2F%2Flegacy.xenahubs.net&addHub=https%3A%2F%2Flegacy.xenahubs.net&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443) corrected for covariates, as well as precomputed versions of the bootstrapping results. All these files will be automatically downloaded from [figshare](https://figshare.com/s/477d393facf01dda8355) upon code sourcing, as they were too large to be included in this repository. Using these precomputed files allows to generate the figures listed above in roughly 2 minutes on a MacBook Pro (macOS version 10.15.1) with a 2.3 GHz Quad-Core Intel Core i5 processor and 16GB of RAM. 
+In order to circumvent the long computation time necessary to regenerate the transcriptomics results from scratch, the current version of the _TranscriptomicsResults.R_ script loads precomputed versions of the biological references (STRING, CORUM and pathway annotations from Reactome), of the [TCGA PANCAN12 RNA-seq data](https://xenabrowser.net/datapages/?dataset=TCGA.PANCAN12.sampleMap%2FPanCan12.3602-corrected-v3_syn1715755&host=https%3A%2F%2Flegacy.xenahubs.net&addHub=https%3A%2F%2Flegacy.xenahubs.net&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443) corrected for covariates, as well as precomputed versions of the bootstrapping results. All these files will be automatically downloaded from [figshare](https://doi.org/10.6084/m9.figshare.12646748.v1) upon code sourcing, as they were too large to be included in this repository. Using these precomputed files allows to generate the figures listed above in roughly 2 minutes on a MacBook Pro (macOS version 10.15.1) with a 2.3 GHz Quad-Core Intel Core i5 processor and 16GB of RAM. 
 
 To download and generate all data from scratch with _nboot=100_ as in the paper, the user needs to set _use_precomputed=F_ at line 75 and source the script. This will take roughly 2.5 days on the above-mentioned machine.
