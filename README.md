@@ -1,6 +1,6 @@
 # CutoffOpt
 
-This repository contains R code to replicate the findings from: Benedetti et al. "A strategy to incorporate prior knowledge into correlation network cutoff selection", _Nature Communications_ (2020).
+This repository contains R code to replicate the findings from: Benedetti et al. "A strategy to incorporate prior knowledge into correlation network cutoff selection", _Nature Communications_ (2020). https://www.nature.com/articles/s41467-020-18675-3
 
 ## Requirements and Installation
 
